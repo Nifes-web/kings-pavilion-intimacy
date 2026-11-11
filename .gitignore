@@ -85,3 +85,9 @@ Desktop.ini
 # A .gitkeep file is committed to preserve the directory structure.
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# Temporary working directories (scratch/import dirs, not part of the project)
+/temp_ministers_zip/
+/ministers_assets/
+/tmp/
+temp_check_indexes.js
