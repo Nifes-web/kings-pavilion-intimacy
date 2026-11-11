@@ -1,0 +1,56 @@
+[
+  {
+    "id": "rev-hero-v1",
+    "section_key": "hero",
+    "version": 1,
+    "title": "12 Hours of Prayer, Warfare & Consecration",
+    "subtitle": "King's Pavilion Presents • Hour of Incubation",
+    "content": {
+      "event_tag": "Bootcamp 2026",
+      "headline_highlight": "INTIMACY",
+      "description": "A consecrated 12-hour spiritual altar convened at IPMAN Event Hall, Ile Ife, Osun State. Join united intercessors for sustained prayer, prophetic worship, and spiritual revival.",
+      "date": "Sat, 5 Dec 2026",
+      "time": "8:00 AM WAT (12 Continuous Hours)",
+      "venue": "IPMAN Hall, Ibadan Rd, Ile Ife",
+      "admission": "Free Admission",
+      "register_button_text": "Register to Attend (Free)",
+      "volunteer_button_text": "Apply as Volunteer"
+    },
+    "author": "admin@kingspavilion.org",
+    "change_summary": "Initial canonical baseline release for Intimacy 2026",
+    "created_at": "2026-11-10T12:00:00Z"
+  },
+  {
+    "id": "rev-about-v1",
+    "section_key": "about",
+    "version": 1,
+    "title": "About the Bootcamp",
+    "subtitle": "Hour of Incubation",
+    "content": {
+      "theme": "Hour of Incubation",
+      "scripture": "The fire shall ever be burning upon the altar; it shall never go out.",
+      "scripture_reference": "Leviticus 6:13",
+      "description": "Intimacy is not a casual prayer meeting. It is a 12-hour continuous spiritual vigil convened by King's Pavilion for believers who refuse spiritual lukewarmness."
+    },
+    "author": "admin@kingspavilion.org",
+    "change_summary": "Initial canonical theme and scripture publication",
+    "created_at": "2026-11-10T12:00:00Z"
+  },
+  {
+    "id": "rev-event_info-v1",
+    "section_key": "event_info",
+    "version": 1,
+    "title": "Venue Information & Guidelines",
+    "subtitle": "Everything you need to know for 5 Dec 2026",
+    "content": {
+      "venue_name": "IPMAN Event Hall",
+      "address": "Beside Harvard Hotel, opposite NASFAT, Ibadan Road, Ile Ife, Osun State",
+      "doors_open": "7:00 AM WAT",
+      "event_start": "8:00 AM WAT"
+    },
+    "author": "admin@kingspavilion.org",
+    "change_summary": "Initial canonical venue details",
+    "created_at": "2026-11-10T12:00:00Z"
+  }
+]
+

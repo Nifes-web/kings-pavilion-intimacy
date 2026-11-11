@@ -1,0 +1,58 @@
+{
+  "hero_flyer": {
+    "url": "/assets/intimacy-flyer.jpg",
+    "alt": "Official King's Pavilion Intimacy 12 Hours Prayer Bootcamp Flyer",
+    "fit": "cover",
+    "position": "center",
+    "section_name": "Homepage Hero Visual Centerpiece",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  },
+  "website_logo": {
+    "url": "/assets/kings-pavilion-logo-cropped.png",
+    "alt": "King's Pavilion Official Brand Logo",
+    "fit": "contain",
+    "position": "center",
+    "section_name": "Website Header & Footer Logo",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  },
+  "event_flyer": {
+    "url": "/assets/intimacy-flyer.jpg",
+    "alt": "Official King's Pavilion Intimacy 12 Hours Prayer Bootcamp Flyer",
+    "fit": "cover",
+    "position": "center",
+    "section_name": "Event Flyer (Full Resolution)",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  },
+  "about_image": {
+    "url": "/assets/flyer-intercession-travail.jpg",
+    "alt": "Worshippers in travail and intercession from official flyer",
+    "fit": "cover",
+    "position": "center",
+    "section_name": "About the Bootcamp Section",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  },
+  "volunteer_image": {
+    "url": "/assets/flyer-fiery-warriors.jpg",
+    "alt": "Fiery intercessors and ministers serving at the altar",
+    "fit": "cover",
+    "position": "center",
+    "section_name": "Volunteer Callout & Readiness Banner",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  },
+  "shofar_image": {
+    "url": "/assets/flyer-shofar-blower.jpg",
+    "alt": "Worshipper sounding the shofar from official flyer",
+    "fit": "cover",
+    "position": "center",
+    "section_name": "Feature Showcase (Sound of Awakening)",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  },
+  "seo_og_image": {
+    "url": "/assets/intimacy-flyer.jpg",
+    "alt": "Official King's Pavilion Intimacy 12 Hours Prayer Bootcamp Flyer",
+    "fit": "cover",
+    "position": "center",
+    "section_name": "SEO & Social Sharing Card (OpenGraph)",
+    "updated_at": "2026-11-01T00:00:00.000Z"
+  }
+}

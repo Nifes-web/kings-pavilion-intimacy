@@ -1,0 +1,49 @@
+[
+  {
+    "id": "audit-init-001",
+    "table_name": "site_content",
+    "record_id": "section-hero",
+    "action": "publish",
+    "admin_email": "admin@kingspavilion.org",
+    "old_data": null,
+    "new_data": {
+      "section_key": "hero",
+      "title": "12 Hours of Prayer, Warfare & Consecration",
+      "is_published": true
+    },
+    "ip_address": "127.0.0.1",
+    "user_agent": "Antigravity Main Admin Console",
+    "created_at": "2026-11-10T12:00:00Z"
+  },
+  {
+    "id": "audit-init-002",
+    "table_name": "media_assets",
+    "record_id": "asset-flyer-main",
+    "action": "create",
+    "admin_email": "admin@kingspavilion.org",
+    "old_data": null,
+    "new_data": {
+      "name": "Official Intimacy Event Flyer",
+      "filename": "intimacy-flyer.jpg"
+    },
+    "ip_address": "127.0.0.1",
+    "user_agent": "Antigravity Main Admin Console",
+    "created_at": "2026-11-10T12:05:00Z"
+  },
+  {
+    "id": "audit-init-003",
+    "table_name": "site_settings",
+    "record_id": "setting-asset-assignments",
+    "action": "update",
+    "admin_email": "admin@kingspavilion.org",
+    "old_data": null,
+    "new_data": {
+      "key": "asset_assignments",
+      "slot": "hero_flyer"
+    },
+    "ip_address": "127.0.0.1",
+    "user_agent": "Antigravity Main Admin Console",
+    "created_at": "2026-11-10T12:10:00Z"
+  }
+]
+

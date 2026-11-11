@@ -1,0 +1,87 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Environment and Local Secrets (STRICT - NEVER COMMIT)
+.env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.local
+
+# Next.js Build Outputs
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# Testing and Code Coverage
+/coverage
+*.lcov
+.nyc_output
+
+# Temporary Files, Logs, and Crash Reports
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+*.tmp
+*.bak
+
+# Security Credentials, Certificates, and Keys
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+
+# Backups and Local Snapshot Dumps
+backups/
+*.dump
+*.sql.gz
+
+# System and OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE and Editor Directories
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cloud & Hosting Runtime Caches
+.vercel
+.turbo
+
+# Runtime-generated Media Uploads (admin-uploaded at runtime; not part of source)
+# The public/uploads/ directory is auto-created by the server when first needed.
+# A .gitkeep file is committed to preserve the directory structure.
+/public/uploads/*
+!/public/uploads/.gitkeep
