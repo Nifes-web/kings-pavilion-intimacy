@@ -5,18 +5,36 @@ import Link from "next/link";
 import { PLACEHOLDER_TESTIMONIES } from "@/data/eventData";
 import { Quote, ArrowRight, ChevronLeft, ChevronRight, User } from "lucide-react";
 
-export function TestimoniesSection() {
+export interface TestimoniesSectionProps {
+  testimonies?: Array<{
+    id: string;
+    slug?: string;
+    testifier_name?: string;
+    testifierName?: string;
+    content?: string;
+    fullTestimony?: string;
+    excerpt?: string;
+  }>;
+}
+
+export function TestimoniesSection({ testimonies }: TestimoniesSectionProps = {}) {
+  const items =
+    testimonies && testimonies.length > 0 ? testimonies : PLACEHOLDER_TESTIMONIES;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? PLACEHOLDER_TESTIMONIES.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? items.length - 1 : prev - 1));
   };
 
   const next = () => {
-    setCurrentIndex((prev) => (prev === PLACEHOLDER_TESTIMONIES.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === items.length - 1 ? 0 : prev + 1));
   };
 
-  const current = PLACEHOLDER_TESTIMONIES[currentIndex];
+  const current = items[currentIndex] || items[0];
+  const currentText =
+    (current as any).content || (current as any).fullTestimony || (current as any).excerpt || "";
+  const currentAuthor =
+    (current as any).testifier_name || (current as any).testifierName || "Attendee";
 
   return (
     <section id="testimonies" className="py-24 bg-[#09080E] text-white overflow-hidden relative">
@@ -39,7 +57,7 @@ export function TestimoniesSection() {
           <Quote className="w-12 h-12 text-brand-flameOrange/25 mb-6" />
 
           <blockquote className="text-xl sm:text-2xl lg:text-3xl font-medium text-white leading-relaxed mb-8">
-            &ldquo;{current.fullTestimony}&rdquo;
+            &ldquo;{currentText}&rdquo;
           </blockquote>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-white/10">
@@ -49,7 +67,7 @@ export function TestimoniesSection() {
               </div>
               <div>
                 <span className="text-base font-bold text-white block">
-                  {current.testifierName}
+                  {currentAuthor}
                 </span>
                 <span className="text-xs text-brand-goldYellow font-medium">
                   Documented Testimonial Record &bull; Verification Policy Active

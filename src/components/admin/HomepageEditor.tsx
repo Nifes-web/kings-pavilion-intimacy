@@ -25,6 +25,7 @@ interface HomepageEditorProps {
   csrfToken: string;
   onMutateSuccess: (message: string) => void;
   onMutateError: (err: string) => void;
+  onRefreshData?: () => void;
 }
 
 export function HomepageEditor({
@@ -32,6 +33,7 @@ export function HomepageEditor({
   csrfToken,
   onMutateSuccess,
   onMutateError,
+  onRefreshData,
 }: HomepageEditorProps) {
   // Find hero section in cmsData
   const heroRecord = cmsData.siteContent.find((s) => s.section_key === "hero");
@@ -94,6 +96,70 @@ export function HomepageEditor({
   const [venueAddress, setVenueAddress] = useState(
     eventInfoContent.address || "Ibadan Road, Ile Ife, Osun State, Nigeria"
   );
+  const [eventDate, setEventDate] = useState(
+    eventInfoContent.date || "Saturday, 5 December 2026"
+  );
+  const [eventTime, setEventTime] = useState(
+    eventInfoContent.time || "8:00 AM - 8:00 PM WAT"
+  );
+
+  // Expectations Section state
+  const expectationsRecord = cmsData.siteContent.find(
+    (s) => s.section_key === "expectations"
+  );
+  const expectationsContent = expectationsRecord?.content || {};
+  const [expTitle, setExpTitle] = useState(
+    expectationsRecord?.title || "Explore the Bootcamp Experience"
+  );
+  const [expDesc, setExpDesc] = useState(
+    expectationsContent.description ||
+      "Four consecrated pillars orchestrating an unforgettable 12-hour prayer incubation at IPMAN Event Hall."
+  );
+
+  // Prayer Focus Section state
+  const prayerRecord = cmsData.siteContent.find(
+    (s) => s.section_key === "prayer_focus"
+  );
+  const prayerContent = prayerRecord?.content || {};
+  const [prayerTitle, setPrayerTitle] = useState(
+    prayerRecord?.title || "Official Prayer Focus"
+  );
+  const [prayerDesc, setPrayerDesc] = useState(
+    prayerContent.description ||
+      "Strategic corporate prayer focuses guiding the 12-hour prayer incubation watches."
+  );
+  const [prayerNote, setPrayerNote] = useState(
+    prayerContent.note ||
+      "Corporate themes are public. Personal prayer points submitted during individual registration remain strictly confidential."
+  );
+
+  // Volunteer Callout Section state
+  const volunteerRecord = cmsData.siteContent.find(
+    (s) => s.section_key === "volunteer_callout"
+  );
+  const volunteerContent = volunteerRecord?.content || {};
+  const [volTitle, setVolTitle] = useState(
+    volunteerRecord?.title || "Serve at the Altar of Intimacy 2026"
+  );
+  const [volDesc, setVolDesc] = useState(
+    volunteerContent.description ||
+      "Join one of the 8 approved volunteer departments to coordinate, serve, and minister at IPMAN Event Hall on Saturday, 5 December 2026."
+  );
+
+  // Closing CTA Section state
+  const closingRecord = cmsData.siteContent.find(
+    (s) => s.section_key === "closing_cta"
+  );
+  const closingContent = closingRecord?.content || {};
+  const [closingHeadline, setClosingHeadline] = useState(
+    closingContent.headline ||
+      closingRecord?.title ||
+      "Join the Altar of Incubation. Free Registration Pass."
+  );
+  const [closingDesc, setClosingDesc] = useState(
+    closingContent.description ||
+      "Do not miss this 12-hour sacred encounter. Reserve your attendee place today."
+  );
 
   // Saving states
   const [isSaving, setIsSaving] = useState(false);
@@ -102,7 +168,29 @@ export function HomepageEditor({
   const [showRevisionsModal, setShowRevisionsModal] = useState(false);
   const [revisions, setRevisions] = useState<any[]>([]);
   const [revisionsLoading, setRevisionsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"hero" | "about" | "venue">("hero");
+  const [activeTab, setActiveTab] = useState<
+    "hero" | "about" | "venue" | "expectations" | "prayer_focus" | "volunteer_callout" | "closing_cta"
+  >("hero");
+
+  const getActiveRecord = () => {
+    switch (activeTab) {
+      case "hero":
+        return heroRecord;
+      case "about":
+        return aboutRecord;
+      case "venue":
+        return eventInfoRecord;
+      case "expectations":
+        return expectationsRecord;
+      case "prayer_focus":
+        return prayerRecord;
+      case "volunteer_callout":
+        return volunteerRecord;
+      case "closing_cta":
+        return closingRecord;
+    }
+  };
+  const activeRecord = getActiveRecord();
 
   const fetchRevisions = async (secKey: string) => {
     setRevisionsLoading(true);
@@ -213,7 +301,7 @@ export function HomepageEditor({
       } else if (activeTab === "venue") {
         sectionKey = "event_info";
         title = "Venue, Location & Directions";
-        subtitle = "IPMAN Event Hall • Ile Ife";
+        subtitle = "Location & Logistics";
         payload = {
           section_key: "event_info",
           title,
@@ -222,15 +310,73 @@ export function HomepageEditor({
             venueName,
             landmark: venueLandmark,
             address: venueAddress,
+            date: eventDate,
+            time: eventTime,
+          },
+        };
+      } else if (activeTab === "expectations") {
+        sectionKey = "expectations";
+        title = expTitle;
+        subtitle = "Programme Dimensions";
+        payload = {
+          section_key: "expectations",
+          title: expTitle,
+          subtitle,
+          content: {
+            ...expectationsContent,
+            description: expDesc,
+          },
+        };
+      } else if (activeTab === "prayer_focus") {
+        sectionKey = "prayer_focus";
+        title = prayerTitle;
+        subtitle = "Themes of Intercession";
+        payload = {
+          section_key: "prayer_focus",
+          title: prayerTitle,
+          subtitle,
+          content: {
+            ...prayerContent,
+            description: prayerDesc,
+            note: prayerNote,
+          },
+        };
+      } else if (activeTab === "volunteer_callout") {
+        sectionKey = "volunteer_callout";
+        title = volTitle;
+        subtitle = "Ministry Call to Service";
+        payload = {
+          section_key: "volunteer_callout",
+          title: volTitle,
+          subtitle,
+          content: {
+            ...volunteerContent,
+            headline: volTitle,
+            description: volDesc,
+          },
+        };
+      } else if (activeTab === "closing_cta") {
+        sectionKey = "closing_cta";
+        title = closingHeadline;
+        subtitle = "Saturday, 5 December 2026 • IPMAN Event Hall, Ile Ife";
+        payload = {
+          section_key: "closing_cta",
+          title: closingHeadline,
+          subtitle,
+          content: {
+            ...closingContent,
+            headline: closingHeadline,
+            description: closingDesc,
           },
         };
       }
 
-      // 1. First ensure record is updated / created
+      // 1. First ensure the active section record is updated / created
+      const currentRecord = getActiveRecord();
       const isExisting =
-        heroRecord &&
-        heroRecord.id &&
-        !heroRecord.id.startsWith("fallback-");
+        currentRecord &&
+        currentRecord.id &&
+        !currentRecord.id.startsWith("fallback-");
 
       const mutationBody: any = {
         entity: "site_content",
@@ -242,7 +388,7 @@ export function HomepageEditor({
       };
 
       if (isExisting) {
-        mutationBody.recordId = heroRecord.id;
+        mutationBody.recordId = currentRecord.id;
       }
 
       const res = await fetch("/api/admin/cms/mutate", {
@@ -257,7 +403,6 @@ export function HomepageEditor({
       const resData = await res.json();
 
       if (!res.ok) {
-        // If DB not migrated, provide helpful feedback
         if (
           resData.error &&
           (resData.error.includes("Could not find the function") ||
@@ -273,10 +418,12 @@ export function HomepageEditor({
         return;
       }
 
-      const savedRecordId = resData.data?.record?.id || heroRecord?.id;
+      const savedRecord = resData.data?.record;
+      const savedRecordId = savedRecord?.id || currentRecord?.id;
+      const currentStatus = savedRecord?.status || currentRecord?.status;
 
-      // 2. If shouldPublish is requested, perform publish action
-      if (shouldPublish && savedRecordId) {
+      // 2. If shouldPublish is requested and record is not already published, call publish
+      if (shouldPublish && savedRecordId && currentStatus !== "published") {
         const pubRes = await fetch("/api/admin/cms/mutate", {
           method: "POST",
           headers: {
@@ -296,7 +443,9 @@ export function HomepageEditor({
           onMutateError(pubData.error || "Failed to publish content.");
           return;
         }
+      }
 
+      if (shouldPublish) {
         onMutateSuccess(
           `Section '${sectionKey}' published successfully! Live website updated.`
         );
@@ -305,6 +454,8 @@ export function HomepageEditor({
           `Section '${sectionKey}' draft saved successfully in database.`
         );
       }
+
+      onRefreshData?.();
 
       // Record snapshot in content revision history
       fetch("/api/admin/cms/revisions", {
@@ -322,6 +473,37 @@ export function HomepageEditor({
       onMutateError(err.message || "Network error while saving content.");
     } finally {
       setIsSaving(false);
+      setIsPublishing(false);
+    }
+  };
+
+  const handleUnpublish = async () => {
+    if (!activeRecord?.id || activeRecord.id.startsWith("fallback-")) return;
+    setIsPublishing(true);
+    try {
+      const res = await fetch("/api/admin/cms/mutate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-csrf-token": csrfToken,
+        },
+        body: JSON.stringify({
+          entity: "site_content",
+          action: "archive",
+          recordId: activeRecord.id,
+          changeSummary: `Unpublished ${activeRecord.section_key} section`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        onMutateError(data.error || "Failed to unpublish section.");
+        return;
+      }
+      onMutateSuccess(`Section '${activeRecord.section_key}' unpublished.`);
+      onRefreshData?.();
+    } catch (err: any) {
+      onMutateError(err.message || "Network error while unpublishing.");
+    } finally {
       setIsPublishing(false);
     }
   };
@@ -353,37 +535,30 @@ export function HomepageEditor({
     <div className="space-y-6 animate-in fade-in duration-300">
       {/* Subnav Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
-        <div className="flex items-center gap-2 bg-[#15111D] p-1 rounded-2xl border border-white/10">
-          <button
-            onClick={() => setActiveTab("hero")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === "hero"
-                ? "bg-brand-goldYellow text-gray-950 shadow-gold-glow"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Hero &amp; Header
-          </button>
-          <button
-            onClick={() => setActiveTab("about")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === "about"
-                ? "bg-brand-goldYellow text-gray-950 shadow-gold-glow"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            About Bootcamp
-          </button>
-          <button
-            onClick={() => setActiveTab("venue")}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              activeTab === "venue"
-                ? "bg-brand-goldYellow text-gray-950 shadow-gold-glow"
-                : "text-gray-400 hover:text-white"
-            }`}
-          >
-            Venue &amp; Location
-          </button>
+        <div className="flex flex-wrap items-center gap-1.5 bg-[#15111D] p-1 rounded-2xl border border-white/10">
+          {(
+            [
+              { id: "hero", label: "Hero & Header" },
+              { id: "about", label: "About" },
+              { id: "venue", label: "Venue & Schedule" },
+              { id: "expectations", label: "Expectations" },
+              { id: "prayer_focus", label: "Prayer Focus" },
+              { id: "volunteer_callout", label: "Volunteer Callout" },
+              { id: "closing_cta", label: "Closing CTA" },
+            ] as const
+          ).map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setActiveTab(t.id)}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+                activeTab === t.id
+                  ? "bg-brand-goldYellow text-gray-950 shadow-gold-glow"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
 
         {/* Global Action Bar */}
@@ -445,8 +620,21 @@ export function HomepageEditor({
             ) : (
               <Globe className="w-3.5 h-3.5 text-gray-950" />
             )}
-            <span>Publish to Live</span>
+            <span>
+              {activeRecord?.status === "published" ? "Save & Update Live" : "Publish to Live"}
+            </span>
           </button>
+
+          {activeRecord?.status === "published" && !activeRecord.id?.startsWith("fallback-") && (
+            <button
+              type="button"
+              disabled={isSaving || isPublishing}
+              onClick={handleUnpublish}
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all disabled:opacity-50"
+            >
+              Unpublish
+            </button>
+          )}
         </div>
       </div>
 
@@ -684,6 +872,194 @@ export function HomepageEditor({
                 value={venueAddress}
                 onChange={(e) => setVenueAddress(e.target.value)}
                 className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                  Event Date
+                </label>
+                <input
+                  type="text"
+                  value={eventDate}
+                  onChange={(e) => setEventDate(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                  Time &amp; Schedule
+                </label>
+                <input
+                  type="text"
+                  value={eventTime}
+                  onChange={(e) => setEventTime(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Expectations Section Editor */}
+      {activeTab === "expectations" && (
+        <div className="rounded-3xl bg-[#15111D] border border-white/10 p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="border-b border-white/10 pb-4">
+            <h3 className="text-lg font-black text-white">
+              What to Expect Section
+            </h3>
+            <p className="text-xs text-gray-400">
+              Customize the programme dimensions heading and summary description.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Section Title
+              </label>
+              <input
+                type="text"
+                value={expTitle}
+                onChange={(e) => setExpTitle(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow font-bold"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Section Description
+              </label>
+              <textarea
+                rows={4}
+                value={expDesc}
+                onChange={(e) => setExpDesc(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow leading-relaxed"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Prayer Focus Section Editor */}
+      {activeTab === "prayer_focus" && (
+        <div className="rounded-3xl bg-[#15111D] border border-white/10 p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="border-b border-white/10 pb-4">
+            <h3 className="text-lg font-black text-white">
+              Official Prayer Focus Section
+            </h3>
+            <p className="text-xs text-gray-400">
+              Update the prayer focus title, introduction, and confidentiality notice.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Section Title
+              </label>
+              <input
+                type="text"
+                value={prayerTitle}
+                onChange={(e) => setPrayerTitle(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow font-bold"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Section Description
+              </label>
+              <textarea
+                rows={3}
+                value={prayerDesc}
+                onChange={(e) => setPrayerDesc(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow leading-relaxed"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Confidentiality Note
+              </label>
+              <input
+                type="text"
+                value={prayerNote}
+                onChange={(e) => setPrayerNote(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Volunteer Callout Section Editor */}
+      {activeTab === "volunteer_callout" && (
+        <div className="rounded-3xl bg-[#15111D] border border-white/10 p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="border-b border-white/10 pb-4">
+            <h3 className="text-lg font-black text-white">
+              Volunteer Service Callout
+            </h3>
+            <p className="text-xs text-gray-400">
+              Edit the volunteer invitation headline and callout description.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Headline
+              </label>
+              <input
+                type="text"
+                value={volTitle}
+                onChange={(e) => setVolTitle(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow font-bold"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Description
+              </label>
+              <textarea
+                rows={4}
+                value={volDesc}
+                onChange={(e) => setVolDesc(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow leading-relaxed"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Closing CTA Section Editor */}
+      {activeTab === "closing_cta" && (
+        <div className="rounded-3xl bg-[#15111D] border border-white/10 p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="border-b border-white/10 pb-4">
+            <h3 className="text-lg font-black text-white">
+              Closing Altar Banner
+            </h3>
+            <p className="text-xs text-gray-400">
+              Edit the closing call-to-action headline and description.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Headline
+              </label>
+              <input
+                type="text"
+                value={closingHeadline}
+                onChange={(e) => setClosingHeadline(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow font-bold"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-1.5">
+                Description
+              </label>
+              <textarea
+                rows={3}
+                value={closingDesc}
+                onChange={(e) => setClosingDesc(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-goldYellow leading-relaxed"
               />
             </div>
           </div>

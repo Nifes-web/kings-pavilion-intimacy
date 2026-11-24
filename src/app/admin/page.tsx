@@ -273,6 +273,7 @@ export default function AdminDashboardPage() {
               csrfToken={csrfToken}
               onMutateSuccess={showSuccessFeedback}
               onMutateError={showErrorFeedback}
+              onRefreshData={fetchCmsContent}
             />
           )}
 

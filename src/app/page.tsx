@@ -18,22 +18,43 @@ import {
   getPublishedFaqs,
   getAssetAssignments,
   getActiveAnnouncements,
+  getPublishedTestimonies,
+  getPublicSiteSettings,
 } from "@/lib/contentService";
 import { AnnouncementBanner } from "@/components/ui/AnnouncementBanner";
 
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const [heroContent, aboutContent, eventInfoContent, ministers, faqs, assignments, announcements] =
-    await Promise.all([
-      getSiteContent("hero"),
-      getSiteContent("about"),
-      getSiteContent("event_info"),
-      getPublishedMinisters(),
-      getPublishedFaqs(),
-      getAssetAssignments(),
-      getActiveAnnouncements(),
-    ]);
+  const [
+    heroContent,
+    aboutContent,
+    eventInfoContent,
+    expectationsContent,
+    prayerFocusContent,
+    volunteerCalloutContent,
+    closingCtaContent,
+    ministers,
+    faqs,
+    testimonies,
+    assignments,
+    announcements,
+    publicSettings,
+  ] = await Promise.all([
+    getSiteContent("hero"),
+    getSiteContent("about"),
+    getSiteContent("event_info"),
+    getSiteContent("expectations"),
+    getSiteContent("prayer_focus"),
+    getSiteContent("volunteer_callout"),
+    getSiteContent("closing_cta"),
+    getPublishedMinisters(),
+    getPublishedFaqs(),
+    getPublishedTestimonies(),
+    getAssetAssignments(),
+    getActiveAnnouncements(),
+    getPublicSiteSettings(),
+  ]);
 
   return (
     <div className="min-h-screen bg-brand-obsidian text-white flex flex-col selection:bg-brand-flameOrange selection:text-white">
@@ -62,7 +83,7 @@ export default async function HomePage() {
         />
 
         {/* 5. What to Expect: Crisp 4-Card Grid & Centered CTA Button */}
-        <WhatToExpectSection />
+        <WhatToExpectSection data={expectationsContent} />
 
         {/* 6. Dark Feature Showcase Block: Shofar Blower Artwork & Consecration */}
         <FeatureShowcaseSection
@@ -73,26 +94,28 @@ export default async function HomePage() {
         <MinistersSection ministers={ministers} />
 
         {/* 8. Verified Testimonies: Dark Spotlit Quote Slider Card (Reference Style) */}
-        <TestimoniesSection />
+        <TestimoniesSection testimonies={testimonies} />
 
         {/* 9. Prayer Focus: Clean Light 3-Watch Breakdown */}
-        <PrayerFocusSection />
+        <PrayerFocusSection data={prayerFocusContent} />
 
         {/* 10. Venue Information & Interactive FAQs */}
         <EventInfoSection data={eventInfoContent} faqs={faqs} />
 
         {/* 11. Volunteer Callout Section */}
         <VolunteerCalloutSection
+          data={volunteerCalloutContent}
           mediaAssignment={assignments?.volunteer_image}
         />
 
         {/* 12. Full-Width Bold Closing CTA Banner (Reference Style) */}
-        <ClosingCtaBanner />
+        <ClosingCtaBanner data={closingCtaContent} />
       </main>
 
       <Footer
         logoUrl={assignments?.website_logo?.url}
         logoAlt={assignments?.website_logo?.alt}
+        settings={publicSettings}
       />
     </div>
   );

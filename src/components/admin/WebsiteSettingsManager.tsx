@@ -85,7 +85,7 @@ export function WebsiteSettingsManager({
         const existing = cmsData.siteSettings.find((s) => s.key === item.key);
         const isEdit = Boolean(existing && existing.id && !existing.id.startsWith("fallback-"));
 
-        await fetch("/api/admin/cms/mutate", {
+        const res = await fetch("/api/admin/cms/mutate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -104,6 +104,14 @@ export function WebsiteSettingsManager({
             changeSummary: `Updated website setting ${item.key}`,
           }),
         });
+
+        const resData = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          onMutateError(
+            resData.error || `Failed to save setting '${item.key}'.`
+          );
+          return;
+        }
       }
 
       onMutateSuccess("Website settings saved successfully.");

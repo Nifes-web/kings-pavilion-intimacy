@@ -5,6 +5,11 @@ import { VOLUNTEER_DEPARTMENTS } from "@/data/eventData";
 import { HeartHandshake, ArrowRight, CheckCircle2, Sparkles, Users } from "lucide-react";
 
 export interface VolunteerCalloutSectionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    content?: Record<string, any>;
+  } | null;
   mediaAssignment?: {
     url: string;
     alt?: string;
@@ -13,7 +18,14 @@ export interface VolunteerCalloutSectionProps {
   };
 }
 
-export function VolunteerCalloutSection({ mediaAssignment }: VolunteerCalloutSectionProps = {}) {
+export function VolunteerCalloutSection({ data, mediaAssignment }: VolunteerCalloutSectionProps = {}) {
+  const c = data?.content || {};
+  const badgeText = data?.subtitle || "Ministry Call to Service";
+  const customHeadline = data?.title || c.headline;
+  const customDesc =
+    c.description ||
+    "Join one of the 8 approved volunteer departments to coordinate, serve, and minister at IPMAN Event Hall on Saturday, 5 December 2026.";
+
   const volunteerImgUrl = mediaAssignment?.url || "/assets/flyer-fiery-warriors.jpg";
   const volunteerAlt = mediaAssignment?.alt || "Fiery intercessors and ministers serving at the altar";
   const volunteerFit = (mediaAssignment?.fit as any) || "cover";
@@ -27,18 +39,24 @@ export function VolunteerCalloutSection({ mediaAssignment }: VolunteerCalloutSec
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-xs font-bold text-brand-flameOrange uppercase tracking-wider">
                 <HeartHandshake className="w-3.5 h-3.5" />
-                <span>Ministry Call to Service</span>
+                <span>{badgeText}</span>
               </div>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight leading-tight">
-                Serve at the Altar of{" "}
-                <span className="bg-gradient-to-r from-brand-fireRed to-brand-flameOrange bg-clip-text text-transparent">
-                  Intimacy 2026
-                </span>
+                {customHeadline ? (
+                  <span>{customHeadline}</span>
+                ) : (
+                  <>
+                    Serve at the Altar of{" "}
+                    <span className="bg-gradient-to-r from-brand-fireRed to-brand-flameOrange bg-clip-text text-transparent">
+                      Intimacy 2026
+                    </span>
+                  </>
+                )}
               </h2>
 
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed font-normal">
-                Join one of the 8 approved volunteer departments to coordinate, serve, and minister at IPMAN Event Hall on Saturday, 5 December 2026.
+                {customDesc}
               </p>
 
               {/* Department Chips (Reference style) */}

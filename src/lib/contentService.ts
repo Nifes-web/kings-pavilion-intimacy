@@ -154,9 +154,73 @@ export const FALLBACK_SITE_CONTENT: Record<
     title: "Secure Your Seat at the Altar",
     subtitle: "Join Believers in 12 Hours of Continuous Prayer",
     content: {
-      headline: "Experience 12 Hours in God's Presence",
-      primaryCta: "Register to Attend (Free)",
+      headline: "Join the Altar of Incubation. Free Registration Pass.",
+      description:
+        "Do not miss this 12-hour sacred encounter. Reserve your attendee place today.",
+      primaryCta: "Register to Attend Now",
       secondaryCta: "Apply as Volunteer",
+    },
+  },
+  expectations: {
+    title: "Explore the Bootcamp Experience",
+    subtitle: "Programme Dimensions",
+    content: {
+      description:
+        "Four consecrated pillars orchestrating an unforgettable 12-hour prayer incubation at IPMAN Event Hall.",
+      ctaText: "Register for the Full 12 Hours",
+      items: [
+        {
+          title: "12-Hour Continuous Intercession",
+          desc: "A full day of focused prayer, from 8 AM to 8 PM, unbroken worship for the kingdom.",
+        },
+        {
+          title: "Deep Prophetic Worship",
+          desc: "Heart-felt worship inviting God's presence and prophetic insight.",
+        },
+        {
+          title: "Spiritual Warfare",
+          desc: "Targeted prayers breaking chains and standing firm in authority.",
+        },
+        {
+          title: "Incubation & Impartation",
+          desc: "Quiet waiting on God for personal callings and fresh anointing.",
+        },
+      ],
+    },
+  },
+  prayer_focus: {
+    title: "Official Prayer Focus",
+    subtitle: "Themes of Intercession",
+    content: {
+      description:
+        "Strategic corporate prayer focuses guiding the 12-hour prayer incubation watches.",
+      note: "Corporate themes are public. Personal prayer points submitted during individual registration remain strictly confidential.",
+      focuses: [
+        {
+          id: "prayer-focus-1",
+          title: "Spiritual Revival & The Altar of Fire",
+          scriptureReference: "Leviticus 6:13",
+          description:
+            "Official prayer focus points approved by the convener will be listed here. Focus on rekindling personal spiritual hunger, purity, and the baptism of prayer.",
+          session: "Morning Watch (8:00 AM - 11:00 AM)",
+        },
+        {
+          id: "prayer-focus-2",
+          title: "National Transformation & Kingdom Alignment",
+          scriptureReference: "2 Chronicles 7:14",
+          description:
+            "Official intercession topics for the body of Christ, community impact in Ile Ife, Osun State, and the nation of Nigeria.",
+          session: "Midday Intercession (11:00 AM - 3:00 PM)",
+        },
+        {
+          id: "prayer-focus-3",
+          title: "Personal Breakthrough, Healing & Prophetic Impartation",
+          scriptureReference: "Isaiah 10:27",
+          description:
+            "Targeted prayers breaking limitations, activating spiritual gifts, and releasing supernatural breakthroughs for all attendees.",
+          session: "Afternoon & Evening Climax (3:00 PM - 8:00 PM)",
+        },
+      ],
     },
   },
 };
@@ -320,6 +384,7 @@ export async function getPublicSiteSettings(): Promise<Record<string, any>> {
     event_time: EVENT_DETAILS.timeFormatted,
     venue_name: EVENT_DETAILS.venue.name,
     venue_address: EVENT_DETAILS.venue.fullAddress,
+    social_instagram: "@Rccg_kings_Pavilion_Ife",
     registration_open: true,
   };
 

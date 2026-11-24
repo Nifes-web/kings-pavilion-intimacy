@@ -1,5 +1,6 @@
 // Location: src/lib/cmsAuthGuard.ts
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getAuthenticatedAdmin, AuthenticatedAdmin, isCookieAuthenticated } from "@/lib/auth";
 import { supabaseServer } from "@/lib/supabaseClient";
 
@@ -55,28 +56,43 @@ export function verifyCsrfToken(request: NextRequest): boolean {
 }
 
 /**
- * Validates Origin and Referer headers against configured application origin.
+ * Validates Origin and Referer headers against configured application origins.
  * Does NOT trust incoming Host header blindly.
  */
 export function verifyOrigin(request: NextRequest): boolean {
-  const configuredAppUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  let allowedHost: string;
-  let allowedProtocol: string;
+  const allowedOrigins = new Set<string>();
 
-  try {
-    const parsedAppUrl = new URL(configuredAppUrl);
-    allowedHost = parsedAppUrl.host;
-    allowedProtocol = parsedAppUrl.protocol;
-  } catch {
-    allowedHost = "localhost:3000";
-    allowedProtocol = "http:";
+  const candidates = [
+    process.env.NEXT_PUBLIC_APP_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : undefined,
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
+    process.env.VERCEL_BRANCH_URL
+      ? `https://${process.env.VERCEL_BRANCH_URL}`
+      : undefined,
+  ];
+
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    try {
+      const parsed = new URL(candidate);
+      allowedOrigins.add(`${parsed.protocol}//${parsed.host}`);
+    } catch {
+      // Ignore malformed env values
+    }
+  }
+
+  if (allowedOrigins.size === 0 || process.env.NODE_ENV !== "production") {
+    allowedOrigins.add("http://localhost:3000");
+    allowedOrigins.add("http://127.0.0.1:3000");
   }
 
   const origin = request.headers.get("origin");
   if (origin) {
     try {
       const originUrl = new URL(origin);
-      return originUrl.host === allowedHost && originUrl.protocol === allowedProtocol;
+      return allowedOrigins.has(`${originUrl.protocol}//${originUrl.host}`);
     } catch {
       return false;
     }
@@ -86,7 +102,7 @@ export function verifyOrigin(request: NextRequest): boolean {
   if (referer) {
     try {
       const refererUrl = new URL(referer);
-      return refererUrl.host === allowedHost && refererUrl.protocol === allowedProtocol;
+      return allowedOrigins.has(`${refererUrl.protocol}//${refererUrl.host}`);
     } catch {
       return false;
     }
@@ -313,6 +329,15 @@ export async function executeCmsMutation(
         },
         { status: isPermError ? 403 : 400 }
       );
+    }
+
+    // Revalidate public pages so published CMS changes appear immediately
+    try {
+      revalidatePath("/", "layout");
+      revalidatePath("/ministers");
+      revalidatePath("/testimonies");
+    } catch {
+      // Ignore outside Next.js request lifecycle
     }
 
     return NextResponse.json({ success: true, data }, { status: 200 });

@@ -9,12 +9,22 @@ import { useBranding } from "@/lib/useBranding";
 export interface FooterProps {
   logoUrl?: string;
   logoAlt?: string;
+  settings?: Record<string, any>;
 }
 
-export function Footer({ logoUrl, logoAlt }: FooterProps = {}) {
+export function Footer({ logoUrl, logoAlt, settings }: FooterProps = {}) {
   const branding = useBranding(logoUrl, logoAlt);
   const brandLogo = branding.logoUrl;
   const brandAlt = branding.logoAlt;
+
+  const socialHandle = settings?.social_instagram || "@Rccg_kings_Pavilion_Ife";
+  const instagramSlug = String(socialHandle).replace(/^@/, "");
+  const eventDate = settings?.event_date || "Saturday, 5 Dec 2026";
+  const eventTime = settings?.event_time || "8:00 AM WAT (12 Hours)";
+  const venueName = settings?.venue_name || "IPMAN Event Hall";
+  const venueAddress =
+    settings?.venue_address ||
+    "Beside Harvard Hotel, opposite NASFAT, Ibadan Road, Ile Ife, Osun State.";
 
   return (
     <footer className="bg-brand-deepBlack text-gray-400 border-t border-white/10 pt-16 pb-12 text-xs">
@@ -38,13 +48,13 @@ export function Footer({ logoUrl, logoAlt }: FooterProps = {}) {
                 Official Social Handle:
               </span>
               <a
-                href="https://instagram.com/Rccg_kings_Pavilion_Ife"
+                href={`https://instagram.com/${instagramSlug}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-brand-goldYellow text-xs font-bold hover:bg-white/10 transition-colors"
               >
                 <span>f / 📸</span>
-                <span>@Rccg_kings_Pavilion_Ife</span>
+                <span>{socialHandle}</span>
               </a>
             </div>
           </div>
@@ -97,16 +107,16 @@ export function Footer({ logoUrl, logoAlt }: FooterProps = {}) {
               <li className="flex items-start gap-2.5">
                 <Calendar className="w-4 h-4 text-brand-flameOrange shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold text-white block">Saturday, 5 Dec 2026</span>
-                  <span className="text-gray-400">8:00 AM WAT (12 Hours)</span>
+                  <span className="font-semibold text-white block">{eventDate}</span>
+                  <span className="text-gray-400">{eventTime}</span>
                 </div>
               </li>
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-brand-fireRed shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-semibold text-white block">IPMAN Event Hall</span>
+                  <span className="font-semibold text-white block">{venueName}</span>
                   <span className="text-gray-400 leading-normal">
-                    Beside Harvard Hotel, opposite NASFAT, Ibadan Road, Ile Ife, Osun State.
+                    {venueAddress}
                   </span>
                 </div>
               </li>

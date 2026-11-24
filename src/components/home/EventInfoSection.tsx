@@ -24,6 +24,20 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
     displayFaqs[0]?.id || "faq-1"
   );
 
+  const c = data?.content || {};
+  const sectionTitle = data?.title || "Event Information & Venue";
+  const sectionSubtitle = data?.subtitle || "Location & Logistics";
+  const venueName = c.venueName || EVENT_DETAILS.venue.name;
+  const venueAddress =
+    c.address ||
+    "IPMAN Event Hall, beside Harvard Hotel, opposite NASFAT, Ibadan Road, Ile Ife, Osun State, Nigeria.";
+  const landmarkText = c.landmark || "Beside Harvard Hotel, Opposite NASFAT";
+  const landmarks = landmarkText.split(",").map((s: string) => s.trim()).filter(Boolean);
+  const landmark1 = landmarks[0] || "Beside Harvard Hotel";
+  const landmark2 = landmarks[1] || "Opposite NASFAT";
+  const eventDate = c.date || EVENT_DETAILS.dateFormatted;
+  const eventTime = c.time || "8:00 AM – 8:00 PM WAT (Arrival by 7:30 AM recommended)";
+
   const toggleFaq = (id: string) => {
     setActiveFaq(activeFaq === id ? null : id);
   };
@@ -34,13 +48,13 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
           <span className="text-xs font-bold uppercase tracking-widest text-brand-fireRed block">
-            Location &amp; Logistics
+            {sectionSubtitle}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
-            Event Information &amp; Venue
+            {sectionTitle}
           </h2>
           <p className="text-base text-gray-600 font-normal">
-            Confirmed logistics, venue landmarks, and essential attendee information for Saturday, 5 December 2026.
+            {c.admissionNote || `Confirmed logistics, venue landmarks, and essential attendee information for ${eventDate}.`}
           </p>
         </div>
 
@@ -53,7 +67,7 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
                   Official Venue
                 </span>
                 <h3 className="text-2xl font-black text-gray-900">
-                  IPMAN Event Hall
+                  {venueName}
                 </h3>
               </div>
 
@@ -65,7 +79,7 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
                       Full Venue Address
                     </span>
                     <p className="text-xs sm:text-sm text-gray-600 mt-1 leading-relaxed">
-                      IPMAN Event Hall, beside Harvard Hotel, opposite NASFAT, Ibadan Road, Ile Ife, Osun State, Nigeria.
+                      {venueAddress}
                     </p>
                   </div>
                 </div>
@@ -73,11 +87,11 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
                 <div className="grid grid-cols-2 gap-3 text-xs">
                   <div className="p-3.5 rounded-xl bg-white border border-gray-200">
                     <span className="text-gray-400 block mb-0.5">Landmark 1</span>
-                    <span className="font-bold text-gray-900">Beside Harvard Hotel</span>
+                    <span className="font-bold text-gray-900">{landmark1}</span>
                   </div>
                   <div className="p-3.5 rounded-xl bg-white border border-gray-200">
                     <span className="text-gray-400 block mb-0.5">Landmark 2</span>
-                    <span className="font-bold text-gray-900">Opposite NASFAT</span>
+                    <span className="font-bold text-gray-900">{landmark2}</span>
                   </div>
                 </div>
 
@@ -85,7 +99,7 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
                   <Calendar className="w-5 h-5 text-brand-flameOrange shrink-0" />
                   <div>
                     <span className="font-bold text-gray-900 block text-xs">Date</span>
-                    <span className="text-xs font-semibold text-brand-fireRed">Saturday, 5 December 2026</span>
+                    <span className="text-xs font-semibold text-brand-fireRed">{eventDate}</span>
                   </div>
                 </div>
 
@@ -93,7 +107,7 @@ export function EventInfoSection({ data, faqs: passedFaqs }: EventInfoSectionPro
                   <Clock className="w-5 h-5 text-brand-goldYellow shrink-0" />
                   <div>
                     <span className="font-bold text-gray-900 block text-xs">Time &amp; Schedule</span>
-                    <span className="text-xs text-gray-700">8:00 AM &ndash; 8:00 PM WAT (Arrival by 7:30 AM recommended)</span>
+                    <span className="text-xs text-gray-700">{eventTime}</span>
                   </div>
                 </div>
               </div>
