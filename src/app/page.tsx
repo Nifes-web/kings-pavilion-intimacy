@@ -2,7 +2,6 @@ import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
-import { RegistrationStatusBanner } from "@/components/ui/RegistrationStatusBanner";
 import { MetricsStrip } from "@/components/home/MetricsStrip";
 import { AboutSection } from "@/components/home/AboutSection";
 import { WhatToExpectSection } from "@/components/home/WhatToExpectSection";
@@ -53,16 +52,10 @@ export default async function HomePage() {
           mediaAssignment={assignments?.hero_flyer}
         />
 
-        {/* 2. Reusable Status Banner */}
-        <RegistrationStatusBanner
-          status="preview"
-          customMessage="Phase 1 Interface Preview: Attendee & Volunteer forms are interactive on client side. Backend database persistence and verification will be enabled in Phase 4."
-        />
-
-        {/* 3. Crisp Light Stat Counter Strip (Reference Style) */}
+        {/* 2. Crisp Light Stat Counter Strip (Reference Style) */}
         <MetricsStrip />
 
-        {/* 4. Event Introduction: Clean Light Section with Feature List & Flyer Travail Artwork */}
+        {/* 3. Event Introduction: Clean Light Section with Feature List & Flyer Travail Artwork */}
         <AboutSection
           data={aboutContent}
           mediaAssignment={assignments?.about_image}
