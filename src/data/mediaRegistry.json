@@ -1,5 +1,31 @@
 [
   {
+    "id": "asset-1794388619138",
+    "name": "logo",
+    "filename": "logo-1794388619138.png",
+    "url": "/uploads/logo-1794388619138.png",
+    "type": "image/png",
+    "size": 341399,
+    "category": "section",
+    "alt_text": "logo.png",
+    "description": "Uploaded asset for section",
+    "is_system": false,
+    "created_at": "2026-11-11T09:16:59.330Z"
+  },
+  {
+    "id": "asset-1794388580815",
+    "name": "newon",
+    "filename": "newon-1794388580815.png",
+    "url": "/uploads/newon-1794388580815.png",
+    "type": "image/png",
+    "size": 2998989,
+    "category": "section",
+    "alt_text": "newon.png",
+    "description": "Uploaded asset for section",
+    "is_system": false,
+    "created_at": "2026-11-11T09:16:21.176Z"
+  },
+  {
     "id": "asset-flyer-main",
     "name": "Intimacy 2026 Official Flyer",
     "filename": "intimacy-flyer.jpg",

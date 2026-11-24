@@ -302,7 +302,7 @@ async function executeReset() {
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
-const phase = (process.env.PHASE || "verify").toLowerCase();
+const phase = (process.env.PHASE || "verify").trim().toLowerCase();
 
 if (phase === "verify") {
   verifyAccount().then((ok) => process.exit(ok ? 0 : 1));

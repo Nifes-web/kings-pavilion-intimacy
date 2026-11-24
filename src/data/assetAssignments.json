@@ -1,27 +1,27 @@
 {
   "hero_flyer": {
-    "url": "/assets/intimacy-flyer.jpg",
-    "alt": "Official King's Pavilion Intimacy 12 Hours Prayer Bootcamp Flyer",
+    "url": "/uploads/newon-1794388580815.png",
+    "alt": "newon.png",
     "fit": "cover",
     "position": "center",
     "section_name": "Homepage Hero Visual Centerpiece",
-    "updated_at": "2026-11-01T00:00:00.000Z"
+    "updated_at": "2026-11-11T09:16:23.578Z"
   },
   "website_logo": {
-    "url": "/assets/kings-pavilion-logo-cropped.png",
-    "alt": "King's Pavilion Official Brand Logo",
+    "url": "/uploads/logo-1794388619138.png",
+    "alt": "logo.png",
     "fit": "contain",
     "position": "center",
     "section_name": "Website Header & Footer Logo",
-    "updated_at": "2026-11-01T00:00:00.000Z"
+    "updated_at": "2026-11-11T09:17:00.775Z"
   },
   "event_flyer": {
-    "url": "/assets/intimacy-flyer.jpg",
-    "alt": "Official King's Pavilion Intimacy 12 Hours Prayer Bootcamp Flyer",
+    "url": "/uploads/newon-1794388580815.png",
+    "alt": "newon.png",
     "fit": "cover",
     "position": "center",
     "section_name": "Event Flyer (Full Resolution)",
-    "updated_at": "2026-11-01T00:00:00.000Z"
+    "updated_at": "2026-11-11T09:18:02.417Z"
   },
   "about_image": {
     "url": "/assets/flyer-intercession-travail.jpg",
@@ -48,11 +48,11 @@
     "updated_at": "2026-11-01T00:00:00.000Z"
   },
   "seo_og_image": {
-    "url": "/assets/intimacy-flyer.jpg",
-    "alt": "Official King's Pavilion Intimacy 12 Hours Prayer Bootcamp Flyer",
+    "url": "/uploads/newon-1794388580815.png",
+    "alt": "newon.png",
     "fit": "cover",
     "position": "center",
     "section_name": "SEO & Social Sharing Card (OpenGraph)",
-    "updated_at": "2026-11-01T00:00:00.000Z"
+    "updated_at": "2026-11-11T09:18:11.212Z"
   }
 }
