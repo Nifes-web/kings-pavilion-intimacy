@@ -26,9 +26,13 @@ export const supabaseServer: SupabaseClient =
         process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
         process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
         {
-          // Server‑side defaults – no auth persistence needed.
+          // Server‑side defaults – no auth persistence, never cache CMS reads in Next.js Data Cache.
           auth: {
             persistSession: false,
+          },
+          global: {
+            fetch: (url, options = {}) =>
+              fetch(url, { ...options, cache: "no-store" }),
           },
         }
       )

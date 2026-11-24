@@ -90,8 +90,8 @@ export function MinistersManager({
       .replace(/^-+|-+$/g, "");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const saveMinister = async (shouldPublish: boolean) => {
+    if (!formName.trim()) return;
     setIsSubmitting(true);
 
     const slug = formSlug.trim() || generateSlug(formName);
@@ -133,10 +133,38 @@ export function MinistersManager({
         return;
       }
 
+      const savedRecord = resData.data?.record;
+      const savedId = savedRecord?.id || editingMinister?.id;
+      const alreadyPublished = Boolean(savedRecord?.is_published ?? editingMinister?.is_published);
+
+      if (shouldPublish && savedId && !alreadyPublished) {
+        const pubRes = await fetch("/api/admin/cms/mutate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-csrf-token": csrfToken,
+          },
+          body: JSON.stringify({
+            entity: "ministers",
+            action: "publish",
+            recordId: savedId,
+            changeSummary: `Published minister ${formName}`,
+          }),
+        });
+        const pubData = await pubRes.json();
+        if (!pubRes.ok) {
+          onMutateError(pubData.error || "Saved, but failed to publish minister.");
+          onRefreshData();
+          return;
+        }
+      }
+
       onMutateSuccess(
-        isEdit
+        shouldPublish
+          ? `Minister '${formName}' saved and published live.`
+          : isEdit
           ? `Minister '${formName}' updated successfully.`
-          : `Minister '${formName}' created successfully.`
+          : `Minister '${formName}' created as draft.`
       );
       setShowModal(false);
       onRefreshData();
@@ -145,6 +173,11 @@ export function MinistersManager({
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await saveMinister(Boolean(editingMinister?.is_published));
   };
 
   const handleTogglePublish = async (minister: any) => {
@@ -545,25 +578,39 @@ export function MinistersManager({
                 />
               </div>
 
-              <div className="pt-2 flex gap-3">
+              <div className="pt-2 flex flex-wrap gap-3">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="flex-1 py-3 rounded-full text-xs font-bold text-gray-300 bg-white/5 hover:bg-white/10 transition-all"
+                  className="px-5 py-3 rounded-full text-xs font-bold text-gray-300 bg-white/5 hover:bg-white/10 transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex-1 py-3 rounded-full text-xs font-bold text-gray-950 bg-gradient-to-r from-brand-flameOrange via-brand-goldYellow to-brand-goldYellow shadow-gold-glow hover:brightness-110 flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all"
+                  className="flex-1 py-3 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/15 border border-white/20 flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all"
                 >
                   {isSubmitting ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-gray-950" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
-                    <span>{editingMinister ? "Save Changes" : "Create Profile"}</span>
+                    <span>{editingMinister?.is_published ? "Save & Update Live" : "Save Draft"}</span>
                   )}
                 </button>
+                {!editingMinister?.is_published && (
+                  <button
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={() => saveMinister(true)}
+                    className="flex-1 py-3 rounded-full text-xs font-bold text-gray-950 bg-gradient-to-r from-brand-flameOrange via-brand-goldYellow to-brand-goldYellow shadow-gold-glow hover:brightness-110 flex items-center justify-center gap-1.5 disabled:opacity-50 transition-all"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="w-4 h-4 animate-spin text-gray-950" />
+                    ) : (
+                      <span>Save &amp; Publish Live</span>
+                    )}
+                  </button>
+                )}
               </div>
             </form>
           </div>

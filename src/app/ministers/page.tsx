@@ -8,6 +8,8 @@ import { ArrowLeft } from "lucide-react";
 import { getPublishedMinisters } from "@/lib/contentService";
 import { getGlobalBranding } from "@/lib/brandingService";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export const revalidate = 0;
 
 // Minister data – photos are stored in public/assets/ministers

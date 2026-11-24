@@ -8,6 +8,8 @@ import { Quote, ArrowRight, ArrowLeft, ShieldCheck, User } from "lucide-react";
 import { getPublishedTestimonies } from "@/lib/contentService";
 import { getGlobalBranding } from "@/lib/brandingService";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 export const revalidate = 0;
 
 export default async function TestimoniesPage() {
